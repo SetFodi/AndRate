@@ -28,6 +28,17 @@ export default function Browse({ kind }: Props) {
     filterAndSortItems()
   }, [items, searchQuery, sortBy, minRating])
 
+  useEffect(() => {
+    if (searchQuery.trim().length > 2) {
+      const timeout = setTimeout(() => {
+        searchItems()
+      }, 300) // Debounce search
+      return () => clearTimeout(timeout)
+    } else if (searchQuery.trim().length === 0) {
+      load()
+    }
+  }, [searchQuery])
+
   async function load() {
     setIsLoading(true)
     try {
@@ -120,7 +131,7 @@ export default function Browse({ kind }: Props) {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4 }}
-            className="w-72 space-y-6 flex-shrink-0"
+            className="w-72 space-y-6 flex-shrink-0 relative z-20"
           >
             {/* Search */}
             <div className="glass rounded-2xl p-4">
@@ -128,29 +139,32 @@ export default function Browse({ kind }: Props) {
                 <MagnifyingGlassIcon className="size-4 text-zinc-400" />
                 <span className="text-sm font-medium">Search {info.title}</span>
               </div>
-              <div className="flex gap-2">
+              <div className="relative">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={`Search ${info.title.toLowerCase()}...`}
-                  className="flex-1 rounded-lg bg-zinc-800/70 border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                  onKeyDown={(e) => e.key === 'Enter' && searchItems()}
+                  className="w-full rounded-lg bg-zinc-800/70 border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 pr-8"
                 />
-                <button
-                  onClick={searchItems}
-                  className="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 transition-colors text-sm"
-                >
-                  Search
-                </button>
+                {isLoading && searchQuery.length > 2 && (
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-400"></div>
+                  </div>
+                )}
               </div>
               {searchQuery && (
-                <button
-                  onClick={() => { setSearchQuery(''); load(); }}
-                  className="mt-2 text-xs text-zinc-400 hover:text-white transition-colors"
-                >
-                  Clear search
-                </button>
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-xs text-zinc-500">
+                    {searchQuery.length <= 2 ? 'Type 3+ characters to search' : `Searching for "${searchQuery}"`}
+                  </span>
+                  <button
+                    onClick={() => { setSearchQuery(''); }}
+                    className="text-xs text-zinc-400 hover:text-white transition-colors"
+                  >
+                    Clear
+                  </button>
+                </div>
               )}
             </div>
 
@@ -269,7 +283,7 @@ export default function Browse({ kind }: Props) {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+                className="relative z-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
               >
                 {filteredItems.map((item: any) => (
                   <div key={`${item.item_id}-${item.item_type}`} className="relative">
@@ -277,12 +291,6 @@ export default function Browse({ kind }: Props) {
                       item={item}
                       onClick={() => navigate(`/detail/${item.item_type}/${item.item_id}`)}
                     />
-                    {/* Community Rating Badge */}
-                    {item.community_rating && (
-                      <div className="absolute top-2 left-2 px-2 py-1 rounded-full bg-amber-500/90 text-black text-xs font-bold">
-                        ⭐ {item.community_rating.toFixed(1)}
-                      </div>
-                    )}
                   </div>
                 ))}
               </motion.div>

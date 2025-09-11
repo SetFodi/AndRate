@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { invoke } from '@tauri-apps/api/core'
 import { StarIcon } from '@heroicons/react/24/solid'
+import { MagnifyingGlassIcon, FilmIcon, TvIcon } from '@heroicons/react/24/outline'
 import Header from './components/Header'
 import { useAuth } from './state/Auth'
 import { showToast } from './components/Toast'
@@ -12,10 +13,10 @@ function App() {
   const [authMode, setAuthMode] = useState<'login' | 'register'>('register')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [q, setQ] = useState('')
-  const [anime, setAnime] = useState<any[]>([])
-  const [tv, setTv] = useState<any[]>([])
-  const [movie, setMovie] = useState<any[]>([])
+  // Recently added showcases (optional future use)
+  const [anime] = useState<any[]>([])
+  const [tv] = useState<any[]>([])
+  const [movie] = useState<any[]>([])
 
   async function handleAuth(e: FormEvent) {
     e.preventDefault()
@@ -56,20 +57,7 @@ function App() {
     }
   }
 
-  async function searchAll() {
-    try {
-      const [a, t, m] = await Promise.all([
-        invoke<any[]>('search_anime', { query: q }),
-        invoke<any[]>('search_tmdb', { kind: 'tv', query: q }),
-        invoke<any[]>('search_tmdb', { kind: 'movie', query: q }),
-      ])
-      setAnime(a)
-      setTv(t)
-      setMovie(m)
-    } catch (e) {
-      alert(String(e))
-    }
-  }
+  // Home no longer contains a global search bar; use /search page instead
 
   async function saveItem(item: any) {
     if (!user) {
@@ -173,19 +161,37 @@ function App() {
               transition={{ delay: 0.5, duration: 0.6 }}
               className="mt-10 max-w-2xl mx-auto"
             >
-              <div className="flex gap-2">
-                <input 
-                  value={q} 
-                  onChange={e=>setQ(e.target.value)} 
-                  placeholder="Search anime, TV shows, movies..." 
-                  className="flex-1 rounded-2xl bg-zinc-900/70 border border-white/10 px-6 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                />
-                <button 
-                  onClick={searchAll} 
-                  className="rounded-2xl px-8 py-4 bg-cyan-500 hover:bg-cyan-600 font-medium text-lg transition"
-                >
-                  Search
-                </button>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { href: '/search', icon: MagnifyingGlassIcon, title: 'Search', desc: 'Find anything', gradient: 'from-cyan-500 to-blue-500' },
+                  { href: '/anime', icon: MagnifyingGlassIcon, title: 'Anime', desc: 'Japanese animation', gradient: 'from-emerald-500 to-teal-500' },
+                  { href: '/tv', icon: TvIcon, title: 'TV Shows', desc: 'Series & episodes', gradient: 'from-purple-500 to-indigo-500' },
+                  { href: '/movies', icon: FilmIcon, title: 'Movies', desc: 'Films & cinema', gradient: 'from-amber-500 to-orange-500' }
+                ].map((item, idx) => (
+                  <motion.a
+                    key={item.title}
+                    href={item.href}
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 + idx * 0.1, duration: 0.5 }}
+                    className="group relative rounded-3xl p-6 bg-gradient-to-br from-zinc-900/50 to-zinc-800/30 border border-white/10 hover:border-white/20 backdrop-blur-sm overflow-hidden transition-all duration-300"
+                  >
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                    <div className="relative z-10">
+                      <div className={`inline-flex p-3 rounded-2xl bg-gradient-to-br ${item.gradient} mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                        {item.title === 'Anime' ? (
+                          <span className="text-2xl">🎌</span>
+                        ) : (
+                          <item.icon className="size-6 text-white" />
+                        )}
+                      </div>
+                      <h3 className="text-lg font-semibold text-white group-hover:text-white transition-colors">{item.title}</h3>
+                      <p className="text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">{item.desc}</p>
+                    </div>
+                  </motion.a>
+                ))}
               </div>
             </motion.div>
           </div>

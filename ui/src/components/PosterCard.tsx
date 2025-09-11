@@ -6,7 +6,7 @@ import { showToast } from './Toast'
 import StarRating from './StarRating'
 
 type Props = {
-  item: { item_id: string; item_type: string; title: string; poster_url?: string | null }
+  item: { item_id: string; item_type: string; title: string; poster_url?: string | null, community_rating?: number | null, community_rating_count?: number | null }
   onClick?: () => void
 }
 
@@ -47,6 +47,11 @@ export default function PosterCard({ item, onClick }: Props) {
         <img src={item.poster_url} alt="" className="aspect-[2/3] w-full object-cover" />
       ) : (
         <div className="aspect-[2/3] w-full bg-zinc-800" />
+      )}
+      {item.community_rating != null && (
+        <div className="absolute top-2 left-2 z-20 px-2 py-1 rounded-full bg-amber-500/90 text-black text-xs font-bold">
+          ⭐ {item.community_rating.toFixed(1)}
+        </div>
       )}
       <div className="p-3">
         <div className="text-sm font-medium line-clamp-2 min-h-10">{item.title}</div>

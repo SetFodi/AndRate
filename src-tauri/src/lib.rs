@@ -298,7 +298,7 @@ async fn discover_anime(page: Option<u32>) -> Result<Vec<SearchItem>, String> {
   let page = page.unwrap_or(1);
   let client = Client::new();
   let body = serde_json::json!({
-    "query": r#"query ($page: Int) { Page(page: $page, perPage: 24) { media(type: ANIME, sort: TRENDING_DESC) { id title { romaji english native } coverImage { large } description(asHtml: false) } } }"#,
+    "query": r#"query ($page: Int) { Page(page: $page, perPage: 24) { media(type: ANIME, sort: TRENDING_DESC) { id title { romaji english native } coverImage { large } description(asHtml: false) averageScore } } }"#,
     "variables": { "page": page as i32 }
   });
   let res = client
