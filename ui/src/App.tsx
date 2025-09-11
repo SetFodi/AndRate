@@ -93,7 +93,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-dvh bg-gradient-to-br from-zinc-950 via-black to-zinc-900 text-zinc-100">
+    <div className="min-h-dvh bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-900 dark:from-zinc-950 dark:via-black dark:to-zinc-900 dark:text-zinc-100">
       <Header />
 
       <main>
@@ -106,103 +106,79 @@ function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut' }}
             >
-              <h1 className="text-5xl md:text-7xl font-black tracking-tight bg-gradient-to-r from-white via-emerald-200 to-cyan-200 bg-clip-text text-transparent">
+              <h1 className="text-5xl md:text-7xl font-black tracking-tight bg-gradient-to-r from-slate-800 via-emerald-600 to-cyan-600 dark:from-white dark:via-emerald-200 dark:to-cyan-200 bg-clip-text text-transparent">
                 Your Universal
                 <br />
-                <span className="text-emerald-400">Watchlist</span>
+                <span className="text-emerald-600 dark:text-emerald-400">Watchlist</span>
               </h1>
-              <p className="mt-6 text-xl text-zinc-300 max-w-3xl mx-auto">
+              <p className="mt-6 text-xl text-slate-600 dark:text-zinc-300 max-w-3xl mx-auto">
                 Track anime, TV shows, and movies with beautiful ratings, status management, and seamless discovery.
               </p>
             </motion.div>
 
             {!user && (
-              <motion.form
-                onSubmit={handleAuth}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="mt-10 max-w-md mx-auto glass rounded-2xl p-6 space-y-4 overflow-hidden"
+                className="mt-10 max-w-md mx-auto glass rounded-2xl overflow-hidden"
               >
-                <div className="text-center mb-1 min-h-[1.25rem]">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={authMode}
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -6 }}
-                      transition={{ duration: 0.2 }}
-                      className="text-sm text-zinc-400"
-                    >
-                      {authMode === 'login' ? 'Welcome back — sign in to continue.' : 'Create your account to start your library.'}
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={authMode + '-fields'}
-                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -12, scale: 0.98 }}
-                    transition={{ duration: 0.25 }}
-                    className="space-y-3"
+                <AnimatePresence mode="wait">
+                  <motion.form
+                    key={authMode}
+                    onSubmit={handleAuth}
+                    initial={{ opacity: 0, x: authMode === 'register' ? 20 : -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: authMode === 'register' ? -20 : 20 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="p-6 space-y-4"
                   >
-                    <input 
-                      value={username} 
-                      onChange={e=>setUsername(e.target.value)} 
-                      placeholder="Username" 
-                      className="w-full rounded-xl bg-zinc-800/70 border border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" 
-                    />
-                    <input 
-                      value={password} 
-                      onChange={e=>setPassword(e.target.value)} 
-                      type="password" 
-                      placeholder="Password" 
-                      className="w-full rounded-xl bg-zinc-800/70 border border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" 
-                    />
-                    {authMode === 'register' && (
-                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-left text-xs text-zinc-500 pl-1">
-                        Password must be at least 6 characters.
-                      </motion.div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-                <div className="flex gap-2">
-                  <button 
-                    type="submit" 
-                    className="flex-1 rounded-xl px-4 py-3 bg-emerald-500 hover:bg-emerald-600 font-medium transition"
-                  >
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.span
-                        key={authMode}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        transition={{ duration: 0.2 }}
+                    <div className="text-center mb-4">
+                      <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
+                        {authMode === 'register' ? 'Create Your Account' : 'Welcome Back!'}
+                      </h2>
+                      <p className="text-sm text-slate-600 dark:text-zinc-400">
+                        {authMode === 'login' ? 'Sign in to continue to your library' : 'Create your account to start tracking'}
+                      </p>
+                    </div>
+                    <div className="space-y-3">
+                      <input 
+                        value={username} 
+                        onChange={e=>setUsername(e.target.value)} 
+                        placeholder="Username" 
+                        className="w-full rounded-xl bg-white dark:bg-zinc-800/70 border border-slate-200 dark:border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-400" 
+                      />
+                      <input 
+                        value={password} 
+                        onChange={e=>setPassword(e.target.value)} 
+                        type="password" 
+                        placeholder="Password" 
+                        className="w-full rounded-xl bg-white dark:bg-zinc-800/70 border border-slate-200 dark:border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-400" 
+                      />
+                      {authMode === 'register' && (
+                        <div className="text-left text-xs text-slate-500 dark:text-zinc-500 pl-1">
+                          Password must be at least 6 characters.
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <button 
+                        type="submit" 
+                        className="flex-1 rounded-xl px-4 py-3 bg-emerald-500 hover:bg-emerald-600 font-medium transition"
                       >
                         {authMode === 'register' ? 'Create Account' : 'Sign In'}
-                      </motion.span>
-                    </AnimatePresence>
-                  </button>
-                  <button 
-                    type="button" 
-                    onClick={()=>setAuthMode(m=> m==='register' ? 'login':'register')} 
-                    className="px-4 py-3 text-sm text-zinc-400 hover:text-white transition"
-                  >
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.span
-                        key={authMode + '-toggle'}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        transition={{ duration: 0.2 }}
+                      </button>
+                      <button 
+                        type="button" 
+                        onClick={()=>setAuthMode(m=> m==='register' ? 'login':'register')} 
+                        className="px-4 py-3 text-sm text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-white transition"
                       >
                         {authMode==='register'?'Sign In':'Sign Up'}
-                      </motion.span>
-                    </AnimatePresence>
-                  </button>
-                </div>
-              </motion.form>
+                      </button>
+                    </div>
+                  </motion.form>
+                </AnimatePresence>
+              </motion.div>
             )}
 
             {/* About Section */}
@@ -224,11 +200,11 @@ function App() {
                     <span className="text-emerald-300 text-sm font-medium">Made with passion</span>
                   </motion.div>
                   
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent mb-4">
+                  <h2 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-zinc-300 bg-clip-text text-transparent mb-4">
                     About AndRate
                   </h2>
                   
-                  <p className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto">
+                  <p className="text-lg text-slate-600 dark:text-zinc-300 leading-relaxed max-w-2xl mx-auto">
                     Your personal entertainment companion for tracking anime, TV shows, and movies. 
                     Built with modern technologies and powered by free, open APIs.
                   </p>
@@ -244,8 +220,8 @@ function App() {
                     <div className="inline-flex p-3 rounded-xl bg-cyan-500/20 mb-4">
                       <GlobeAltIcon className="size-6 text-cyan-400" />
                     </div>
-                    <h3 className="font-semibold text-white mb-2">Free APIs</h3>
-                    <p className="text-sm text-zinc-400 leading-relaxed">
+                    <h3 className="font-semibold text-slate-800 dark:text-white mb-2">Free APIs</h3>
+                    <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
                       Powered by <strong>AniList</strong> for anime data and <strong>TMDB</strong> for movies & TV shows. 
                       Ratings reflect community scores from these platforms, not IMDb.
                     </p>
@@ -260,8 +236,8 @@ function App() {
                     <div className="inline-flex p-3 rounded-xl bg-emerald-500/20 mb-4">
                       <CodeBracketIcon className="size-6 text-emerald-400" />
                     </div>
-                    <h3 className="font-semibold text-white mb-2">Open Source</h3>
-                    <p className="text-sm text-zinc-400 leading-relaxed">
+                    <h3 className="font-semibold text-slate-800 dark:text-white mb-2">Open Source</h3>
+                    <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
                       Built with <strong>Tauri</strong>, <strong>React</strong>, and <strong>TypeScript</strong>. 
                       Completely free and open source software you can trust.
                     </p>
@@ -276,9 +252,9 @@ function App() {
                     <div className="inline-flex p-3 rounded-xl bg-purple-500/20 mb-4">
                       <HeartIcon className="size-6 text-purple-400" />
                     </div>
-                    <h3 className="font-semibold text-white mb-2">Created By</h3>
-                    <p className="text-sm text-zinc-400 leading-relaxed">
-                      Developed by <strong className="text-white">Luka Partenadze</strong> with love for the community. 
+                    <h3 className="font-semibold text-slate-800 dark:text-white mb-2">Created By</h3>
+                    <p className="text-sm text-slate-600 dark:text-zinc-400 leading-relaxed">
+                      Developed by <strong className="text-slate-900 dark:text-white">Luka Partenadze</strong> with love for the community. 
                       A passion project for entertainment enthusiasts.
                     </p>
                   </motion.div>
@@ -288,9 +264,9 @@ function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.1, duration: 0.5 }}
-                  className="text-center pt-6 border-t border-white/10"
+                  className="text-center pt-6 border-t border-slate-200 dark:border-white/10"
                 >
-                  <p className="text-sm text-zinc-500">
+                  <p className="text-sm text-slate-500 dark:text-zinc-500">
                     Community ratings are sourced from AniList and The Movie Database (TMDB) • Not affiliated with IMDb
                   </p>
                 </motion.div>
@@ -321,8 +297,8 @@ function App() {
                 transition={{ delay: 0.8 + idx * 0.1, duration: 0.6 }}
               >
                 <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">{category.emoji}</div>
-                <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
-                <p className="text-zinc-400">{category.desc}</p>
+                <h3 className="text-2xl font-bold mb-2 text-slate-800 dark:text-white">{category.name}</h3>
+                <p className="text-slate-600 dark:text-zinc-400">{category.desc}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -339,24 +315,24 @@ function App() {
               {[{title:'Anime', items: anime},{title:'TV Shows', items: tv},{title:'Movies', items: movie}].map(block => 
                 block.items.length > 0 && (
                   <div key={block.title}>
-                    <h2 className="text-2xl font-bold mb-6">{block.title}</h2>
+                    <h2 className="text-2xl font-bold mb-6 text-slate-800 dark:text-white">{block.title}</h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                       {block.items.map((it:any)=> (
                         <motion.div 
                           key={`${it.item_id}-${it.item_type}`} 
-                          className="rounded-2xl overflow-hidden border border-white/10 bg-zinc-900/60 group" 
+                          className="rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 bg-white dark:bg-zinc-900/60 group" 
                           whileHover={{ scale: 1.05 }}
                           transition={{ duration: 0.2 }}
                         >
                           {it.poster_url ? (
                             <img src={it.poster_url} alt="" className="aspect-[2/3] w-full object-cover" />
                           ) : (
-                            <div className="aspect-[2/3] w-full bg-zinc-800 flex items-center justify-center">
-                              <span className="text-zinc-500">No Image</span>
+                            <div className="aspect-[2/3] w-full bg-slate-200 dark:bg-zinc-800 flex items-center justify-center">
+                              <span className="text-slate-500 dark:text-zinc-500">No Image</span>
                             </div>
                           )}
                           <div className="p-3">
-                            <div className="text-sm font-medium line-clamp-2 min-h-10 group-hover:text-emerald-300 transition">{it.title}</div>
+                            <div className="text-sm font-medium line-clamp-2 min-h-10 text-slate-800 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition">{it.title}</div>
                             <div className="mt-2 flex items-center gap-2">
                               <div className="flex items-center text-amber-400">
                                 <StarIcon className="size-4" />

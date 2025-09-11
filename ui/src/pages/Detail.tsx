@@ -63,7 +63,7 @@ export default function Detail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-dvh bg-gradient-to-br from-zinc-950 to-black text-zinc-100">
+      <div className="min-h-dvh bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-950 dark:to-black text-slate-900 dark:text-zinc-100">
         <Header />
         <div className="flex items-center justify-center h-96">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400"></div>
@@ -75,12 +75,12 @@ export default function Detail() {
   if (!item) return null
 
   return (
-    <div className="min-h-dvh bg-gradient-to-br from-zinc-950 to-black text-zinc-100">
+    <div className="min-h-dvh bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-950 dark:to-black text-slate-900 dark:text-zinc-100">
       <Header />
       <div className="mx-auto max-w-6xl px-6 py-8">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-6"
+          className="flex items-center gap-2 text-slate-500 dark:text-zinc-400 hover:text-slate-800 dark:hover:text-white transition-colors mb-6"
         >
           <ArrowLeftIcon className="size-5" />
           Back

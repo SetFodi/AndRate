@@ -8,6 +8,7 @@ import Library from './pages/LibraryNew.tsx'
 import Detail from './pages/Detail.tsx'
 import Search from './pages/Search.tsx'
 import { AuthProvider } from './state/Auth.tsx'
+import { ThemeProvider } from './state/Theme.tsx'
 import ToastProvider from './components/Toast.tsx'
 
 const router = createBrowserRouter([
@@ -22,9 +23,11 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-      <ToastProvider />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <RouterProvider router={router} />
+        <ToastProvider />
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

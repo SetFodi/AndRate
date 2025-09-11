@@ -112,7 +112,7 @@ export default function Browse({ kind }: Props) {
   const info = categoryInfo[kind]
 
   return (
-    <div className="min-h-dvh bg-gradient-to-br from-zinc-950 to-black text-zinc-100">
+    <div className="min-h-dvh bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-950 dark:to-black text-slate-900 dark:text-zinc-100">
       <Header />
       
       <div className="mx-auto max-w-7xl px-6 py-8">

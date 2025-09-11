@@ -53,7 +53,7 @@ export default function Search() {
   const totalResults = results.anime.length + results.tv.length + results.movies.length
 
   return (
-    <div className="min-h-dvh bg-gradient-to-br from-zinc-950 to-black text-zinc-100">
+    <div className="min-h-dvh bg-gradient-to-br from-slate-50 to-slate-100 dark:from-zinc-950 dark:to-black text-slate-900 dark:text-zinc-100">
       <Header />
       
       <main className="mx-auto max-w-6xl px-6 py-12">
@@ -66,25 +66,25 @@ export default function Search() {
           >
             <div className="flex items-center justify-center gap-3 mb-4">
               <SparklesIcon className="size-8 text-emerald-400" />
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 dark:from-white dark:to-zinc-300 bg-clip-text text-transparent">
                 Discover Everything
               </h1>
             </div>
             
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-600 dark:text-zinc-400 max-w-2xl mx-auto">
               Search across anime, TV shows, and movies. Find your next obsession.
             </p>
 
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
               <div className="relative">
-                <MagnifyingGlassIcon className="absolute left-6 top-1/2 transform -translate-y-1/2 size-6 text-zinc-400" />
+                <MagnifyingGlassIcon className="absolute left-6 top-1/2 transform -translate-y-1/2 size-6 text-slate-400 dark:text-zinc-400" />
                 <input
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search anime, TV shows, movies..."
-                  className="w-full pl-16 pr-6 py-6 text-lg rounded-3xl bg-zinc-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200"
+                  className="w-full pl-16 pr-6 py-6 text-lg rounded-3xl bg-white dark:bg-zinc-900/70 border border-slate-200 dark:border-white/10 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-400"
                   autoFocus
                 />
               </div>
@@ -103,12 +103,12 @@ export default function Search() {
                 animate={{ opacity: 1 }}
                 className="flex flex-wrap justify-center gap-2 mt-6"
               >
-                <span className="text-sm text-zinc-500 mr-2">Try:</span>
+                <span className="text-sm text-slate-500 dark:text-zinc-500 mr-2">Try:</span>
                 {suggestions.map((suggestion) => (
                   <button
                     key={suggestion}
                     onClick={() => setQuery(suggestion)}
-                    className="px-3 py-1 rounded-full bg-zinc-800/60 border border-white/10 text-sm text-zinc-300 hover:text-white hover:border-white/20 transition-colors"
+                    className="px-3 py-1 rounded-full bg-slate-200 dark:bg-zinc-800/60 border border-slate-300 dark:border-white/10 text-sm text-slate-700 dark:text-zinc-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/20 transition-colors"
                   >
                     {suggestion}
                   </button>
