@@ -3,7 +3,7 @@ import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { invoke } from '@tauri-apps/api/core'
 import { StarIcon } from '@heroicons/react/24/solid'
-import { MagnifyingGlassIcon, FilmIcon, TvIcon } from '@heroicons/react/24/outline'
+import { HeartIcon, CodeBracketIcon, GlobeAltIcon } from '@heroicons/react/24/outline'
 import Header from './components/Header'
 import { useAuth } from './state/Auth'
 import { showToast } from './components/Toast'
@@ -155,43 +155,95 @@ function App() {
               </motion.form>
             )}
 
+            {/* About Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
-              className="mt-10 max-w-2xl mx-auto"
+              className="mt-16 max-w-4xl mx-auto"
             >
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { href: '/search', icon: MagnifyingGlassIcon, title: 'Search', desc: 'Find anything', gradient: 'from-cyan-500 to-blue-500' },
-                  { href: '/anime', icon: MagnifyingGlassIcon, title: 'Anime', desc: 'Japanese animation', gradient: 'from-emerald-500 to-teal-500' },
-                  { href: '/tv', icon: TvIcon, title: 'TV Shows', desc: 'Series & episodes', gradient: 'from-purple-500 to-indigo-500' },
-                  { href: '/movies', icon: FilmIcon, title: 'Movies', desc: 'Films & cinema', gradient: 'from-amber-500 to-orange-500' }
-                ].map((item, idx) => (
-                  <motion.a
-                    key={item.title}
-                    href={item.href}
-                    whileHover={{ y: -4, scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+              <div className="glass rounded-3xl p-8 md:p-12 space-y-8">
+                <div className="text-center">
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.7, duration: 0.5 }}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/30 mb-6"
+                  >
+                    <HeartIcon className="size-4 text-emerald-400" />
+                    <span className="text-emerald-300 text-sm font-medium">Made with passion</span>
+                  </motion.div>
+                  
+                  <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent mb-4">
+                    About AndRate
+                  </h2>
+                  
+                  <p className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto">
+                    Your personal entertainment companion for tracking anime, TV shows, and movies. 
+                    Built with modern technologies and powered by free, open APIs.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-6">
+                  <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 + idx * 0.1, duration: 0.5 }}
-                    className="group relative rounded-3xl p-6 bg-gradient-to-br from-zinc-900/50 to-zinc-800/30 border border-white/10 hover:border-white/20 backdrop-blur-sm overflow-hidden transition-all duration-300"
+                    transition={{ delay: 0.8, duration: 0.5 }}
+                    className="text-center p-6 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20"
                   >
-                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-                    <div className="relative z-10">
-                      <div className={`inline-flex p-3 rounded-2xl bg-gradient-to-br ${item.gradient} mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                        {item.title === 'Anime' ? (
-                          <span className="text-2xl">🎌</span>
-                        ) : (
-                          <item.icon className="size-6 text-white" />
-                        )}
-                      </div>
-                      <h3 className="text-lg font-semibold text-white group-hover:text-white transition-colors">{item.title}</h3>
-                      <p className="text-sm text-zinc-400 group-hover:text-zinc-300 transition-colors">{item.desc}</p>
+                    <div className="inline-flex p-3 rounded-xl bg-cyan-500/20 mb-4">
+                      <GlobeAltIcon className="size-6 text-cyan-400" />
                     </div>
-                  </motion.a>
-                ))}
+                    <h3 className="font-semibold text-white mb-2">Free APIs</h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed">
+                      Powered by <strong>AniList</strong> for anime data and <strong>TMDB</strong> for movies & TV shows. 
+                      Ratings reflect community scores from these platforms, not IMDb.
+                    </p>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9, duration: 0.5 }}
+                    className="text-center p-6 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border border-emerald-500/20"
+                  >
+                    <div className="inline-flex p-3 rounded-xl bg-emerald-500/20 mb-4">
+                      <CodeBracketIcon className="size-6 text-emerald-400" />
+                    </div>
+                    <h3 className="font-semibold text-white mb-2">Open Source</h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed">
+                      Built with <strong>Tauri</strong>, <strong>React</strong>, and <strong>TypeScript</strong>. 
+                      Completely free and open source software you can trust.
+                    </p>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.0, duration: 0.5 }}
+                    className="text-center p-6 rounded-2xl bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border border-purple-500/20"
+                  >
+                    <div className="inline-flex p-3 rounded-xl bg-purple-500/20 mb-4">
+                      <HeartIcon className="size-6 text-purple-400" />
+                    </div>
+                    <h3 className="font-semibold text-white mb-2">Created By</h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed">
+                      Developed by <strong className="text-white">Luka Partenadze</strong> with love for the community. 
+                      A passion project for entertainment enthusiasts.
+                    </p>
+                  </motion.div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.1, duration: 0.5 }}
+                  className="text-center pt-6 border-t border-white/10"
+                >
+                  <p className="text-sm text-zinc-500">
+                    Community ratings are sourced from AniList and The Movie Database (TMDB) • Not affiliated with IMDb
+                  </p>
+                </motion.div>
               </div>
             </motion.div>
           </div>

@@ -57,22 +57,76 @@ export default function PosterCard({ item, onClick }: Props) {
         <div className="text-sm font-medium line-clamp-2 min-h-10">{item.title}</div>
       </div>
       {menuOpen && (
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm p-3" onClick={(e)=>{ e.stopPropagation(); }}>
-          <div className="rounded-xl border border-white/10 bg-zinc-900/90 p-3 space-y-2">
-            <div className="text-xs text-zinc-400">Quick actions</div>
-            <select value={status} onChange={e=>setStatus(e.target.value)} className="w-full rounded-lg bg-zinc-800 border border-white/10 px-3 py-2">
-              <option value="planning">Planning</option>
-              <option value="watching">Watching</option>
-              <option value="completed">Completed</option>
-              <option value="abandoned">Abandoned</option>
-            </select>
-            <StarRating rating={rating} onChange={setRating} size="sm" />
-            <div className="flex gap-2">
-              <button className="flex-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-3 py-2" onClick={saveQuick}>Save</button>
-              <button className="rounded-lg bg-zinc-800 border border-white/10 px-3 py-2" onClick={()=> setMenuOpen(false)}>Close</button>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 z-30" 
+          onClick={(e)=>{ e.stopPropagation(); setMenuOpen(false); }}
+        >
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: 20 }}
+            transition={{ type: "spring", duration: 0.4 }}
+            className="glass rounded-3xl p-6 w-80 max-w-full space-y-6 border-2 border-white/20"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-white mb-1">Quick Add</h3>
+              <p className="text-sm text-zinc-400 truncate">{item.title}</p>
             </div>
-          </div>
-        </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium text-zinc-300 mb-2 block">Watch Status</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { value: 'planning', label: 'Planning', emoji: '📋' },
+                    { value: 'watching', label: 'Watching', emoji: '👀' },
+                    { value: 'completed', label: 'Completed', emoji: '✅' },
+                    { value: 'abandoned', label: 'Abandoned', emoji: '❌' }
+                  ].map((s) => (
+                    <button
+                      key={s.value}
+                      onClick={() => setStatus(s.value)}
+                      className={`p-3 rounded-xl border-2 transition-all text-sm font-medium ${
+                        status === s.value
+                          ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
+                          : 'border-white/10 bg-white/5 text-zinc-400 hover:border-white/20 hover:text-white'
+                      }`}
+                    >
+                      <div className="text-lg mb-1">{s.emoji}</div>
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-zinc-300 mb-3 block">Your Rating</label>
+                <div className="flex justify-center">
+                  <StarRating rating={rating} onChange={setRating} size="md" />
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex gap-3 pt-2">
+              <button 
+                className="flex-1 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-4 py-3 font-semibold text-white transition-colors shadow-lg hover:shadow-emerald-500/25" 
+                onClick={saveQuick}
+              >
+                Add to Library
+              </button>
+              <button 
+                className="px-4 py-3 rounded-xl border border-white/10 text-zinc-400 hover:text-white hover:border-white/20 transition-colors" 
+                onClick={()=> setMenuOpen(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </motion.div>
+        </motion.div>
       )}
     </motion.div>
   )
