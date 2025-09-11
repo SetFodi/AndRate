@@ -35,6 +35,9 @@ Here’s a stylish `README.md` you can copy into your root folder:
 ---
 
 ## 🖼️ Screenshots
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/20520bf2-2630-4929-ac08-8695b64a9450" />
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/a656e148-3da1-4157-a84e-6450f66b1807" />
+<img width="1470" height="956" alt="image" src="https://github.com/user-attachments/assets/7bb13e7b-1229-4779-9dd4-61442ec7dd9f" />
 
 
 
