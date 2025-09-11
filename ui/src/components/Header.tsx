@@ -21,7 +21,7 @@ export default function Header() {
       <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <NavLink to="/" className="flex items-center gap-3">
-            <div className="size-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-400" />
+            <img src="/andrate.png" alt="AndRate" className="h-8 w-8 rounded-lg shadow" />
             <span className="text-lg font-semibold tracking-wide">AndRate</span>
           </NavLink>
           <nav className="hidden md:flex items-center gap-2">

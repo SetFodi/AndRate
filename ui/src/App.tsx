@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 import { invoke } from '@tauri-apps/api/core'
@@ -10,7 +10,7 @@ import { showToast } from './components/Toast'
 
 function App() {
   const { user, login, register: registerUser } = useAuth()
-  const [authMode, setAuthMode] = useState<'login' | 'register'>('register')
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   // Recently added showcases (optional future use)
@@ -122,34 +122,84 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
-                className="mt-10 max-w-md mx-auto glass rounded-2xl p-6 space-y-4"
+                className="mt-10 max-w-md mx-auto glass rounded-2xl p-6 space-y-4 overflow-hidden"
               >
-                <input 
-                  value={username} 
-                  onChange={e=>setUsername(e.target.value)} 
-                  placeholder="Username" 
-                  className="w-full rounded-xl bg-zinc-800/70 border border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" 
-                />
-                <input 
-                  value={password} 
-                  onChange={e=>setPassword(e.target.value)} 
-                  type="password" 
-                  placeholder="Password" 
-                  className="w-full rounded-xl bg-zinc-800/70 border border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" 
-                />
+                <div className="text-center mb-1 min-h-[1.25rem]">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={authMode}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-sm text-zinc-400"
+                    >
+                      {authMode === 'login' ? 'Welcome back — sign in to continue.' : 'Create your account to start your library.'}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={authMode + '-fields'}
+                    initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-3"
+                  >
+                    <input 
+                      value={username} 
+                      onChange={e=>setUsername(e.target.value)} 
+                      placeholder="Username" 
+                      className="w-full rounded-xl bg-zinc-800/70 border border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" 
+                    />
+                    <input 
+                      value={password} 
+                      onChange={e=>setPassword(e.target.value)} 
+                      type="password" 
+                      placeholder="Password" 
+                      className="w-full rounded-xl bg-zinc-800/70 border border-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500" 
+                    />
+                    {authMode === 'register' && (
+                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="text-left text-xs text-zinc-500 pl-1">
+                        Password must be at least 6 characters.
+                      </motion.div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
                 <div className="flex gap-2">
                   <button 
                     type="submit" 
                     className="flex-1 rounded-xl px-4 py-3 bg-emerald-500 hover:bg-emerald-600 font-medium transition"
                   >
-                    {authMode === 'register' ? 'Create Account' : 'Sign In'}
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.span
+                        key={authMode}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {authMode === 'register' ? 'Create Account' : 'Sign In'}
+                      </motion.span>
+                    </AnimatePresence>
                   </button>
                   <button 
                     type="button" 
                     onClick={()=>setAuthMode(m=> m==='register' ? 'login':'register')} 
                     className="px-4 py-3 text-sm text-zinc-400 hover:text-white transition"
                   >
-                    {authMode==='register'?'Sign In':'Sign Up'}
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.span
+                        key={authMode + '-toggle'}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {authMode==='register'?'Sign In':'Sign Up'}
+                      </motion.span>
+                    </AnimatePresence>
                   </button>
                 </div>
               </motion.form>
