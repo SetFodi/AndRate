@@ -132,7 +132,7 @@ export default function Library() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-              className="px-4 py-2 rounded-lg bg-zinc-800 border border-white/10 hover:bg-zinc-700 transition-colors"
+              className="px-4 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-200 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-zinc-700 transition-colors"
             >
               {viewMode === 'grid' ? 'List View' : 'Grid View'}
             </button>
@@ -153,7 +153,7 @@ export default function Library() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search your library..."
-                className="w-full rounded-lg bg-zinc-800/70 border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-lg bg-white dark:bg-zinc-800/70 border border-slate-200 dark:border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
 
@@ -170,10 +170,9 @@ export default function Library() {
                     onClick={() => setStatusFilter(status)}
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${
                       statusFilter === status 
-                        ? 'bg-emerald-600/20 text-emerald-300 border border-emerald-500/30' 
-                        : 'hover:bg-zinc-700/50'
-                    }`}
-                  >
+                        ? 'bg-emerald-500/20 text-emerald-600 dark:bg-emerald-600/20 dark:text-emerald-300 border border-emerald-500/30' 
+                        : 'hover:bg-slate-100 dark:hover:bg-zinc-700/50'
+                    }`}>
                     <span className="flex items-center gap-2">
                       {status !== 'all' && statusEmojis[status as keyof typeof statusEmojis]}
                       {status === 'all' ? 'All Items' : status.charAt(0).toUpperCase() + status.slice(1)}
@@ -183,8 +182,6 @@ export default function Library() {
                 ))}
               </div>
             </div>
-
-            {/* Type Filter */}
             <div className="glass rounded-2xl p-4">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-sm font-medium">Type</span>
@@ -196,8 +193,8 @@ export default function Library() {
                     onClick={() => setTypeFilter(type)}
                     className={`w-full px-3 py-2 rounded-lg text-sm transition-colors text-left ${
                       typeFilter === type 
-                        ? 'bg-cyan-600/20 text-cyan-300 border border-cyan-500/30' 
-                        : 'hover:bg-zinc-700/50'
+                        ? 'bg-cyan-500/20 text-cyan-600 dark:bg-cyan-600/20 dark:text-cyan-300 border border-cyan-500/30' 
+                        : 'hover:bg-slate-100 dark:hover:bg-zinc-700/50'
                     }`}
                   >
                     {type === 'all' ? 'All Types' : type === 'tv' ? 'TV Shows' : type.charAt(0).toUpperCase() + type.slice(1)}
@@ -214,7 +211,7 @@ export default function Library() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="w-full rounded-lg bg-zinc-800/70 border border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full rounded-lg bg-white dark:bg-zinc-800/70 border border-slate-200 dark:border-white/10 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <option value="title">Title</option>
                 <option value="rating">Rating</option>
@@ -258,14 +255,14 @@ export default function Library() {
                     key={item.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="glass rounded-2xl p-4 flex items-center gap-4 hover:bg-white/5 transition-colors"
+                    className="glass rounded-2xl p-4 flex items-center gap-4 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                   >
                     <div className="w-16 h-24 rounded-lg overflow-hidden flex-shrink-0">
                       {item.poster_url ? (
                         <img src={item.poster_url} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
-                          <span className="text-zinc-500 text-xs">No Image</span>
+                        <div className="w-full h-full bg-slate-200 dark:bg-zinc-800 flex items-center justify-center">
+                          <span className="text-slate-500 dark:text-zinc-500 text-xs">No Image</span>
                         </div>
                       )}
                     </div>
@@ -310,8 +307,8 @@ export default function Library() {
                       {item.poster_url ? (
                         <img src={item.poster_url} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-zinc-800 flex items-center justify-center">
-                          <span className="text-zinc-500">No Image</span>
+                        <div className="w-full h-full bg-slate-200 dark:bg-zinc-800 flex items-center justify-center">
+                          <span className="text-slate-500 dark:text-zinc-500">No Image</span>
                         </div>
                       )}
                       <div className="absolute top-2 right-2">

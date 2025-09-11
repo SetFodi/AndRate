@@ -356,8 +356,8 @@ function App() {
         )}
       </main>
 
-      <footer className="border-t border-white/10 bg-zinc-950/50">
-        <div className="mx-auto max-w-7xl px-6 py-8 text-center text-sm text-zinc-500">
+      <footer className="border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-zinc-950/50">
+        <div className="mx-auto max-w-7xl px-6 py-8 text-center text-sm text-slate-600 dark:text-zinc-400">
           Built with Tauri, React, and Tailwind • Free and open source
         </div>
       </footer>

@@ -27,14 +27,14 @@ export default function Browse({ kind }: Props) {
   }
 
   return (
-    <div className="min-h-dvh bg-gradient-to-br from-zinc-950 to-black text-zinc-100">
+    <div className="min-h-dvh bg-gradient-to-br from-slate-50 via-white to-slate-100 text-slate-900 dark:from-zinc-950 dark:via-black dark:to-zinc-900 dark:text-zinc-100">
       <Header />
       <div className="mx-auto max-w-7xl px-6 py-8">
         <div className="flex items-baseline justify-between">
-          <h1 className="text-3xl font-bold capitalize">{kind === 'tv' ? 'TV' : kind} — Popular</h1>
+          <h1 className="text-3xl font-bold capitalize text-slate-900 dark:text-zinc-100">{kind === 'tv' ? 'TV' : kind} — Popular</h1>
           <div className="flex gap-2">
-            <button onClick={()=> setPage(p => Math.max(1, p-1))} className="rounded-xl bg-zinc-800 px-3 py-2 border border-white/10">Prev</button>
-            <button onClick={()=> setPage(p => p+1)} className="rounded-xl bg-zinc-800 px-3 py-2 border border-white/10">Next</button>
+            <button onClick={()=> setPage(p => Math.max(1, p-1))} className="rounded-xl bg-white dark:bg-zinc-800 px-3 py-2 border border-slate-200 dark:border-white/10">Prev</button>
+            <button onClick={()=> setPage(p => p+1)} className="rounded-xl bg-white dark:bg-zinc-800 px-3 py-2 border border-slate-200 dark:border-white/10">Next</button>
           </div>
         </div>
 
