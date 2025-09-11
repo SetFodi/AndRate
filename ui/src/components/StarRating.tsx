@@ -11,81 +11,65 @@ type Props = {
 
 export default function StarRating({ rating, onChange, size = 'md', readonly = false }: Props) {
   const [hoverRating, setHoverRating] = useState<number | null>(null)
-  
+
   const sizeClasses = {
     sm: 'size-4',
     md: 'size-5',
     lg: 'size-6'
   }
-  
+
   const displayRating = hoverRating ?? rating ?? 0
-  
-  const handleClick = (starIndex: number, isHalf: boolean) => {
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>, starIndex: number) => {
     if (readonly) return
-    const newRating = starIndex + (isHalf ? 0.5 : 1)
-    onChange(newRating === rating ? null : newRating)
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
+    const isHalf = (e.clientX - rect.left) < rect.width / 2
+    const next = starIndex + (isHalf ? 0.5 : 1)
+    setHoverRating(next)
   }
-  
-  const handleMouseEnter = (starIndex: number, isHalf: boolean) => {
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>, starIndex: number) => {
     if (readonly) return
-    setHoverRating(starIndex + (isHalf ? 0.5 : 1))
+    const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect()
+    const isHalf = (e.clientX - rect.left) < rect.width / 2
+    const next = starIndex + (isHalf ? 0.5 : 1)
+    onChange(next === rating ? null : next)
   }
-  
-  const handleMouseLeave = () => {
+
+  const handleLeaveAll = () => {
     if (readonly) return
     setHoverRating(null)
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 select-none" onMouseLeave={handleLeaveAll}>
       {Array.from({ length: 10 }, (_, i) => {
         const starIndex = i
-        const starValue = starIndex + 1
-        const halfValue = starIndex + 0.5
-        
-        const isFullFilled = displayRating >= starValue
-        const isHalfFilled = displayRating >= halfValue && displayRating < starValue
-        
+        const fill = Math.max(0, Math.min(1, displayRating - starIndex))
+
         return (
-          <div key={i} className="relative cursor-pointer" onMouseLeave={handleMouseLeave}>
+          <div
+            key={i}
+            className="relative cursor-pointer"
+            onMouseMove={(e) => handleMouseMove(e, starIndex)}
+            onClick={(e) => handleClick(e, starIndex)}
+          >
             {/* Background star */}
             <StarIcon className={`${sizeClasses[size]} text-zinc-600`} />
-            
-            {/* Half star overlay */}
-            <div
-              className="absolute inset-0 w-1/2 overflow-hidden"
-              onClick={() => handleClick(starIndex, true)}
-              onMouseEnter={() => handleMouseEnter(starIndex, true)}
-            >
-              <StarSolidIcon 
-                className={`${sizeClasses[size]} transition-colors ${
-                  isHalfFilled || isFullFilled ? 'text-amber-400' : 'text-transparent'
-                } ${!readonly && 'hover:text-amber-300'}`} 
-              />
-            </div>
-            
-            {/* Full star overlay */}
-            <div
-              className="absolute inset-0 w-1/2 left-1/2 overflow-hidden"
-              onClick={() => handleClick(starIndex, false)}
-              onMouseEnter={() => handleMouseEnter(starIndex, false)}
-            >
-              <StarSolidIcon 
-                className={`${sizeClasses[size]} -translate-x-1/2 transition-colors ${
-                  isFullFilled ? 'text-amber-400' : 'text-transparent'
-                } ${!readonly && 'hover:text-amber-300'}`} 
-              />
+            {/* Filled star (fractional via width clip) */}
+            <div className="absolute inset-0 overflow-hidden" style={{ width: `${fill * 100}%` }}>
+              <StarSolidIcon className={`${sizeClasses[size]} text-amber-400`} />
             </div>
           </div>
         )
       })}
-      
+
       {displayRating > 0 && (
         <span className="ml-2 text-sm text-zinc-400 min-w-[2rem]">
           {displayRating.toFixed(1)}
         </span>
       )}
-      
+
       {!readonly && rating !== null && (
         <button
           onClick={() => onChange(null)}
