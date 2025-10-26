@@ -53,6 +53,35 @@ Here’s a stylish `README.md` you can copy into your root folder:
 
 ## 🚀 Getting Started
 
+> **⚡ Want to run this quickly?** → [QUICKSTART.md](QUICKSTART.md)  
+> **🪟 Windows Users:** See detailed setup instructions in [WINDOWS_SETUP.md](WINDOWS_SETUP.md)
+
+### Prerequisites
+
+#### For Windows 11:
+1. **Node.js** (v16+): [Download here](https://nodejs.org/)
+2. **Rust**: Install via [rustup](https://rustup.rs/)
+   ```powershell
+   # Run this in PowerShell
+   winget install --id Rustlang.Rustup
+   ```
+3. **Visual Studio C++ Build Tools**: Required for Rust on Windows
+   - Install [Visual Studio Build Tools](https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022)
+   - During installation, select "Desktop development with C++"
+4. **WebView2**: Usually pre-installed on Windows 11, but if needed: [Download here](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
+
+#### For macOS:
+1. **Node.js** (v16+): Install via [Homebrew](https://brew.sh/) or [nodejs.org](https://nodejs.org/)
+2. **Rust**: Install via [rustup](https://rustup.rs/)
+3. **Xcode Command Line Tools**:
+   ```bash
+   xcode-select --install
+   ```
+
+---
+
+### Quick Start
+
 ### 1. Clone the repo
 ```bash
 git clone https://github.com/<yourusername>/AndRate.git
@@ -60,24 +89,51 @@ cd AndRate
 ```
 
 ### 2. Install dependencies
+
+**Windows (with automated setup):**
+```powershell
+.\setup-windows.ps1
+```
+
+**Mac/Linux or Manual:**
+```bash
+npm run install-deps
+```
+Or manually:
 ```bash
 cd ui
 npm install
+cd ..
 ```
 
 ### 3. Run in dev mode
 ```bash
-cd ..
-npx tauri dev
+npm run dev
 ```
 This starts Vite dev server + Rust backend with live reload.
 
-### 4. Build app (macOS `.app` + `.dmg`)
+**Alternative (if you have Tauri CLI installed globally):**
 ```bash
-cargo tauri build
+cargo tauri dev
 ```
 
-The built bundles will be inside:
+### 4. Build the app
+
+#### For Windows (`.exe` + `.msi`):
+```bash
+npm run build
+```
+Built bundles will be in:
+```
+src-tauri/target/release/bundle/msi/AndRate_0.1.0_x64_en-US.msi
+src-tauri/target/release/AndRate.exe
+```
+
+#### For macOS (`.app` + `.dmg`):
+```bash
+npm run build
+```
+Built bundles will be in:
 ```
 src-tauri/target/release/bundle/macos/AndRate.app
 src-tauri/target/release/bundle/dmg/AndRate_0.1.0_aarch64.dmg
